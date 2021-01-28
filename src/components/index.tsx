@@ -12,7 +12,11 @@ const Chrono: React.FunctionComponent<Partial<TimelineProps>> = (
   const [timeLineItems, setItems] = useState<TimelineItemModel[]>([]);
   const timeLineItemsRef = useRef<TimelineItemModel[]>();
   const [slideShowActive, setSlideshowActive] = useState(false);
-  const [activeTimelineItem, setActiveTimelineItem] = useState(0);
+  const [activeTimelineItemState, setActiveTimelineItemState] = useState(0);
+
+  const activeTimelineItem = props.activeItem ?? activeTimelineItemState;
+  const setActiveTimelineItem =
+    props.setActiveItem ?? setActiveTimelineItemState;
 
   const {
     allowDynamicUpdate = false,
