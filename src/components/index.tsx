@@ -1,16 +1,16 @@
 import 'focus-visible';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { TimelineItemModel } from '../models/TimelineItemModel';
+import React, { useCallback, useState } from 'react';
 import { TimelineProps } from '../models/TimelineModel';
 import GlobalContextProvider from './GlobalContext';
 import Timeline from './timeline/timeline';
 const toReactArray = React.Children.toArray;
 
+const emptyArray: [] = [];
+
 const Chrono: React.FunctionComponent<Partial<TimelineProps>> = (
   props: Partial<TimelineProps>,
 ) => {
-  const [timeLineItems, setItems] = useState<TimelineItemModel[]>([]);
-  const timeLineItemsRef = useRef<TimelineItemModel[]>();
+  const timeLineItems = props.items || emptyArray;
   const [slideShowActive, setSlideshowActive] = useState(false);
   const [activeTimelineItemState, setActiveTimelineItemState] = useState(0);
 
@@ -18,14 +18,7 @@ const Chrono: React.FunctionComponent<Partial<TimelineProps>> = (
   const setActiveTimelineItem =
     props.setActiveItem ?? setActiveTimelineItemState;
 
-  const {
-    allowDynamicUpdate = false,
-    children,
-    items,
-    onScrollEnd,
-    slideShow = false,
-    theme,
-  } = props;
+  const { children, items, onScrollEnd, slideShow = false, theme } = props;
 
   const customTheme = Object.assign(
     {
@@ -37,41 +30,7 @@ const Chrono: React.FunctionComponent<Partial<TimelineProps>> = (
     theme,
   );
 
-  const initItems = () => {
-    debugger;
-    return items && items.length
-      ? items.map((item, index) => {
-          return Object.assign({}, item, {
-            id: Math.random().toString(16).slice(2),
-            visible: true,
-            active: index === 0,
-          });
-        })
-      : Array.from({
-          length: React.Children.toArray(children).filter(
-            (item) => (item as any).props.className !== 'chrono-icons',
-          ).length,
-        }).map<Partial<TimelineItemModel>>((item, index) => ({
-          id: Math.random().toString(16).slice(2),
-          visible: true,
-          active: index === 0,
-        }));
-  };
-
-  useEffect(() => {
-    const items = initItems();
-    timeLineItemsRef.current = items;
-    setItems(items);
-  }, [JSON.stringify(allowDynamicUpdate ? items : null)]);
-
   const handleTimelineUpdate = useCallback((actvTimelineIndex: number) => {
-    setItems((items) =>
-      items.map((item, index) =>
-        Object.assign({}, item, {
-          active: index === actvTimelineIndex,
-        }),
-      ),
-    );
     setActiveTimelineItem(actvTimelineIndex);
 
     if (items) {

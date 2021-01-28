@@ -155,8 +155,6 @@ export interface TimelineProps {
 
   children?: React.ReactElement | React.ReactElement[];
 
-  allowDynamicUpdate?: boolean;
-
   onScrollEnd?: () => void;
 
   activeItem?: number;

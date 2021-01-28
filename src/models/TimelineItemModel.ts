@@ -9,15 +9,15 @@ import { TimelineMode } from './TimelineModel';
  * @interface TimelineItemModel
  */
 export interface TimelineItemModel {
-  active?: boolean;
+  active: boolean;
   cardDetailedText?: string | string[];
   cardSubtitle?: string;
   cardTitle?: string;
-  id?: string;
+  id: string;
   media?: Media;
   position?: string;
   title?: string;
-  visible?: boolean;
+  visible: boolean;
 }
 
 export interface TimelineCardModel extends TimelineItemModel {
