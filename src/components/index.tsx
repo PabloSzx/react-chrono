@@ -30,15 +30,18 @@ const Chrono: React.FunctionComponent<Partial<TimelineProps>> = (
     theme,
   );
 
-  const handleTimelineUpdate = useCallback((actvTimelineIndex: number) => {
-    setActiveTimelineItem(actvTimelineIndex);
+  const handleTimelineUpdate = useCallback(
+    (actvTimelineIndex: number) => {
+      setActiveTimelineItem(actvTimelineIndex);
 
-    if (items) {
-      if (items.length - 1 === actvTimelineIndex) {
-        setSlideshowActive(false);
+      if (items) {
+        if (items.length - 1 === actvTimelineIndex) {
+          setSlideshowActive(false);
+        }
       }
-    }
-  }, []);
+    },
+    [setActiveTimelineItem, setSlideshowActive, items?.length],
+  );
 
   const restartSlideShow = useCallback(() => {
     setSlideshowActive(true);
@@ -101,7 +104,7 @@ const Chrono: React.FunctionComponent<Partial<TimelineProps>> = (
         onNext={handleOnNext}
         onPrevious={handleOnPrevious}
         onRestartSlideshow={restartSlideShow}
-        onTimelineUpdated={useCallback(handleTimelineUpdate, [])}
+        onTimelineUpdated={handleTimelineUpdate}
         slideShow={slideShow}
         slideShowEnabled={slideShow}
         slideShowRunning={slideShowActive}
